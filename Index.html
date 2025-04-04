@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roger Ji - Resume</title>
+    <link rel="stylesheet" href="https://unpkg.com/7.css">
+    <style>
+        body {
+            background: #008080 url('public/windowswallpaper.webp') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    
+        .desktop {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            padding-top: 20px;
+        }
+    
+        .window {
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0 auto;
+            transition: all 0.2s ease;
+        }
+    
+        .window.maximized {
+            width: calc(100% - 20px) !important;
+            height: calc(100% - 60px) !important;
+            top: 10px !important;
+            left: 10px !important;
+            transform: none !important;
+        }
+    
+        .window.minimized {
+            display: none;
+        }
+    
+        .window-body {
+            overflow-y: auto;
+            height: calc(100% - 60px);
+            padding: 10px;
+        }
+    
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 4px;
+            background: #f0f0f0;
+            border-top: 1px solid #dfdfdf;
+        }
+    
+        h1 {
+            color: #000080;
+            border-bottom: 1px solid #000080;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+    
+        h2 {
+            color: #000080;
+            margin-top: 20px;
+            border-bottom: 1px solid #000080;
+            padding-bottom: 3px;
+        }
+    
+        h3 {
+            color: #000080;
+            margin-top: 15px;
+        }
+    
+        a {
+            color: #000080;
+            text-decoration: none;
+        }
+    
+        a:hover {
+            text-decoration: underline;
+        }
+    
+        ul {
+            padding-left: 20px;
+        }
+    
+        li {
+            margin-bottom: 5px;
+        }
+    
+        /* Windows 7 Style Taskbar */
+        .taskbar {
+            background: linear-gradient(to bottom, #3a6ea5, #1e4b8f);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            border-top: 1px solid #4d9afa;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        
+        /* Windows 7 Start Button */
+        .start-button {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 10px;
+            background: linear-gradient(to bottom, #5b9cf2, #3a6ea5);
+            color: white;
+            font-weight: bold;
+            border-right: 1px solid #1e4b8f;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        
+        .start-button:hover {
+            background: linear-gradient(to bottom, #6cabf2, #4a7eb5);
+        }
+        
+        .start-button:active {
+            background: linear-gradient(to bottom, #3a6ea5, #5b9cf2);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .start-button img {
+            height: 24px;
+            margin-right: 6px;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+        }
+        
+        /* Taskbar Items */
+        .taskbar-item {
+            height: 30px;
+            padding: 0 8px;
+            margin: 0 3px;
+            background: linear-gradient(to bottom, rgba(123, 169, 245, 0.8), rgba(77, 142, 247, 0.8));
+            border: 1px solid #2d6fd1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        
+        .taskbar-item:hover {
+            background: linear-gradient(to bottom, rgba(138, 180, 248, 0.9), rgba(92, 152, 252, 0.9));
+        }
+        
+        .taskbar-item.active {
+            background: linear-gradient(to bottom, #7ba9f5, #4d8ef7);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* Windows 7 Clock */
+        .clock {
+            margin-left: auto;
+            padding: 0 10px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            cursor: default;
+            min-width: 80px;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+        }
+        
+        /* Windows 7 Start Menu */
+        .start-menu {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            width: 400px;
+            background: linear-gradient(to right, #4495bde0, #335579);
+            border: 1px solid #000;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            color: white;
+            display: none;
+            z-index: 2000;
+        }
+        
+        .start-menu-header {
+            background: linear-gradient(to right, #4494bd, #335579);
+            padding: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 1px solid #000;
+            border-radius: 0 6px 0 0;
+        }
+        
+        .start-menu-items {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .start-menu-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.1s;
+        }
+        
+        .start-menu-item:hover {
+            background: linear-gradient(to right, #387c9e, #2b4968);
+        }
+        
+        .start-menu-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+        }
+        
+        .start-menu-footer {
+            background: linear-gradient(to right, #4494bd, #335579);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #000;
+            font-size: 12px;
+            border-radius: 0 0 6px 0;
+        }
+        
+        .shutdown-btn {
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 3px;
+            transition: background 0.1s;
+        }
+        
+        .shutdown-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .title-bar {
+            cursor: move;
+            user-select: none;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+    
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+    
+        /* Shutdown Screen */
+        .shutdown-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+    
+        .shutdown-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    
+        .power-button {
+            background: #333;
+            color: white;
+            border: 2px solid #666;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+    
+        .power-button:hover {
+            background: #444;
+            border-color: #888;
+        }
+    
+        .power-button:active {
+            background: #222;
+        }
+    
+        /* Image Carousel Styles */
+        .carousel-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+    
+        .carousel-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: transform 0.5s ease;
+        }
+    
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+    
+        .carousel-btn.prev {
+            left: 10px;
+        }
+    
+        .carousel-btn.next {
+            right: 10px;
+        }
+    
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+    
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+    
+        .carousel-indicator.active {
+            background: white;
+        }
+
+        /* Taskbar Icons */
+        .taskbar-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            filter: brightness(0) invert(1) drop-shadow(0 1px 0 rgba(0,0,0,0.3));
+        }
+
+        .taskbar-item span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <!-- Resume Window -->
+        <div class="window active" id="resumeWindow">
+            <div class="title-bar">
+                <div class="title-bar-text">Resume - Roger Ji</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('resumeWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('resumeWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('resumeWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h1>Roger Ji</h1>
+                    <p>
+                        <strong>
+                            Phoenix, AZ · 
+                            <a href="tel:+16028155269">(602)-815-5269</a> · 
+                            <a href="mailto:roger.ji.bhs@gmail.com">roger.ji.bhs@gmail.com</a> · 
+                            <a href="https://linkedin.com/in/roger-ji-phx" target="_blank">linkedin.com/in/roger-ji-phx</a>
+                        </strong>
+                    </p>
+            
+                <h2>Education</h2>
+                <p><strong>Bioscience High School, Engineering Pathway, GPA 4.66 Class of 2026</strong><br>
+                <strong>Mentored by Britny Delp</strong></p>
+            
+                <p><strong>Avid learner, pilot, and leader dedicated to engineering, collaboration, and problem-solving, seeking an internship in Aerospace Engineering or Flight Operations</strong></p>
+            
+                <h2>Positions</h2>
+            
+                <h3>Student Pilot at Sierra Charlie Aviation, 2024-Present</h3>
+                <ul>
+                    <li>40+ hours of flight time</li>
+                    <li>Private Pilot's License estimated completion in March 2025</li>
+                    <li>Learning aviation, aerospace skills, and physics</li>
+                </ul>
+            
+                <h3>Vice President and Member of Dragon Robotics 2375, 2022-Present</h3>
+                <ul>
+                    <li>Managing a team of 50+ students to design a robot for First Robotics Competition</li>
+                    <li>Coordinated grant and donation programs raising over $50,000 for our team</li>
+                    <li>Managing engineering processes using Gantt charts and making key design decisions</li>
+                    <li>Utilizing CAD to prototype designs while mentoring incoming members how to use CAD</li>
+                </ul>
+            
+                <h3>President of Bioscience High School SkillsUSA, 2024-Present</h3>
+                <ul>
+                    <li>Developing professional skills as an engineer and learning systems engineering</li>
+                    <li>Job-specific skills such as Excel, Word, and Powerpoint</li>
+                </ul>
+            
+                <h3>Member of American Institute of Aeronautics and Astronautics, 2024-Present</h3>
+                <ul>
+                    <li>Career readiness</li>
+                    <li>Access to other like-minded engineers</li>
+                </ul>
+            
+                <h2>Honors and Awards</h2>
+                <ul>
+                    <li><strong>FIRST Robotics Competition Dean's List Semi-Finalist</strong>, March 2024</li>
+                    <li><strong>Makers of Change Functional Prototype Winner</strong>, October 2024</li>
+                    <li><strong>Phoenix Union Academic Excellence Award</strong>, April 2023 & April 2024</li>
+                    <li><strong>Making the Future Award from Phoenix Union School District</strong>, April 2024</li>
+                </ul>
+            
+                <h2>Skills</h2>
+                <table>
+                    <tr>
+                        <td>Problem-solving</td>
+                        <td>Engineering Design Process</td>
+                    </tr>
+                    <tr>
+                        <td>Collaboration</td>
+                        <td>SolidWorks</td>
+                    </tr>
+                    <tr>
+                        <td>Organization</td>
+                        <td>Trotec Speedy 300</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptability</td>
+                        <td>Onshape (Advanced)</td>
+                    </tr>
+                    <tr>
+                        <td>Team Management</td>
+                        <td>Microsoft Office</td>
+                    </tr>
+                    <tr>
+                        <td>Google Suite</td>
+                        <td>Time Management</td>
+                    </tr>
+                </table>
+            
+                <h2>Volunteer Experience</h2>
+                <ul>
+                    <li><strong>ASU STEM Coding Workshop</strong>, December 2024</li>
+                    <li><strong>Rogers Ranch Elementary School Robotics Visits and Outreach</strong>, 2023-2025</li>
+                    <li><strong>Arizona Robotics State Championship Volunteer</strong>, September 2024</li>
+                    <li><strong>Bioscience High School Student Ambassador</strong>, July 2023 & July 2024</li>
+                </ul>
+            </div>
+            <div class="status-bar">
+                <p class="status-bar-field">About Roger Ji</p>
+                <p class="status-bar-field">Resume</p>
+                <p class="status-bar-field">Windows 7</p>
+            </div>
+        </div>
+    
+        <!-- Image Carousel Window -->
+        <div class="window" id="carouselWindow" style="left: 200px; top: 150px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Image Carousel</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('carouselWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('carouselWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('carouselWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="carousel-container" id="carouselContainer">
+                    <div class="carousel-slide">
+                        <img src="public/firstsolo.jpg" alt="First Solo Flight">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="public/flightimage.jpg" alt="Flight Image">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="public/robotphoto.png" alt="Robot Photo">
+                    </div>
+                    <button class="carousel-btn prev" onclick="prevSlide()">❮</button>
+                    <button class="carousel-btn next" onclick="nextSlide()">❯</button>
+                    <div class="carousel-indicators" id="carouselIndicators"></div>
+                </div>
+            </div>
+            <div class="status-bar">
+                <p class="status-bar-field">Image 1 of 3</p>
+                <p class="status-bar-field">Windows 7</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Start Menu -->
+    <div class="start-menu" id="startMenu">
+        <div class="start-menu-header">
+            Roger Ji's Computer
+        </div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" onclick="focusWindow('resumeWindow')">
+                <img src="https://cdn-icons-png.flaticon.com/512/888/888882.png" alt="Resume">
+                <span>View Resume</span>
+            </div>
+            <div class="start-menu-item" onclick="openApp('carouselWindow')">
+                <img src="https://cdn-icons-png.flaticon.com/512/833/833326.png" alt="Photos">
+                <span>Image Carousel</span>
+            </div>
+            <div class="start-menu-item" onclick="window.open('http://linkedin.com/in/roger-ji-phx', '_blank')">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+                <span>LinkedIn Profile</span>
+            </div>
+            <div class="start-menu-item" onclick="window.open('mailto:roger.ji.bhs@gmail.com')">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+                <span>Send Email</span>
+            </div>
+            <div class="start-menu-item" onclick="alert('This would open a browser in a real implementation')">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" alt="Internet">
+                <span>Internet Explorer</span>
+            </div>
+        </div>
+        <div class="start-menu-footer">
+            <div class="shutdown-btn" id="shutdownBtn">
+                Shut Down
+            </div>
+            <div>
+                User: Roger
+            </div>
+        </div>
+    </div>
+    
+    <!-- Shutdown Screen -->
+    <div class="shutdown-screen" id="shutdownScreen">
+        <div class="shutdown-message">Shutting down...</div>
+        <div class="power-button" id="powerButton" style="display: none;">
+            ⏻
+        </div>
+    </div>
+    
+    <div class="taskbar">
+        <div class="start-button" id="startButton">
+            <img src="public/startbuttonwindows.png" alt="Start">
+            <span>Start</span>
+        </div>
+        <div class="taskbar-item" id="resumeTaskbarBtn" onclick="focusWindow('resumeWindow')">
+            <img src="image (1) 1.png" class="taskbar-icon" alt="Resume">
+            <span>Resume</span>
+        </div>
+        <div class="taskbar-item" id="carouselTaskbarBtn" onclick="focusWindow('carouselWindow')" style="display: none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/833/833326.png" class="taskbar-icon" alt="Photos">
+            <span>Image Carousel</span>
+        </div>
+        <div class="clock" id="clock">
+            <span id="time">10:45 AM</span>
+            <span id="date">10/25/2023</span>
+        </div>
+    </div>
+
+    <script>
+        // Window management
+        const windows = {
+            resumeWindow: document.getElementById('resumeWindow'),
+            carouselWindow: document.getElementById('carouselWindow')
+        };
+    
+        const taskbarBtns = {
+            resumeWindow: document.getElementById('resumeTaskbarBtn'),
+            carouselWindow: document.getElementById('carouselTaskbarBtn')
+        };
+    
+        const startButton = document.getElementById('startButton');
+        const startMenu = document.getElementById('startMenu');
+        const shutdownBtn = document.getElementById('shutdownBtn');
+        const shutdownScreen = document.getElementById('shutdownScreen');
+        const powerButton = document.getElementById('powerButton');
+    
+        let startMenuVisible = false;
+        let lastClickTime = 0;
+        let isDragging = false;
+        let dragStartX, dragStartY, windowStartX, windowStartY;
+    
+        // Carousel variables
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicatorsContainer = document.getElementById('carouselIndicators');
+        const statusBarField = document.querySelector('#carouselWindow .status-bar-field');
+    
+        // Initialize carousel indicators
+        slides.forEach((slide, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('carousel-indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+    
+        updateCarousel();
+    
+        // Initialize window states
+        let windowStates = {};
+        Object.keys(windows).forEach(windowId => {
+            windowStates[windowId] = {
+                isMaximized: false,
+                isMinimized: false,
+                originalPosition: {}
+            };
+        });
+    
+        function minimizeWindow(windowId) {
+            windows[windowId].classList.add('minimized');
+            taskbarBtns[windowId].classList.remove('active');
+            windowStates[windowId].isMinimized = true;
+        }
+    
+        function toggleMaximize(windowId) {
+            const windowState = windowStates[windowId];
+            if (windowState.isMaximized) {
+                windows[windowId].classList.remove('maximized');
+                windows[windowId].style.width = '800px';
+                windows[windowId].style.height = '600px';
+                windows[windowId].style.top = windowId === 'resumeWindow' ? '100px' : '150px';
+                windows[windowId].style.left = windowId === 'resumeWindow' ? '50%' : '200px';
+                windows[windowId].style.transform = windowId === 'resumeWindow' ? 'translateX(-50%)' : 'none';
+            } else {
+                windowState.originalPosition = {
+                    width: windows[windowId].style.width,
+                    height: windows[windowId].style.height,
+                    top: windows[windowId].style.top,
+                    left: windows[windowId].style.left,
+                    transform: windows[windowId].style.transform
+                };
+                windows[windowId].classList.add('maximized');
+            }
+            windowState.isMaximized = !windowState.isMaximized;
+        }
+    
+        function closeWindow(windowId) {
+            windows[windowId].style.display = 'none';
+            taskbarBtns[windowId].classList.remove('active');
+            taskbarBtns[windowId].style.display = 'none';
+        }
+    
+        function focusWindow(windowId) {
+            windows[windowId].style.display = 'block';
+            windows[windowId].classList.remove('minimized');
+            windows[windowId].classList.add('active');
+            taskbarBtns[windowId].classList.add('active');
+            taskbarBtns[windowId].style.display = 'flex';
+            hideStartMenu();
+            windowStates[windowId].isMinimized = false;
+        
+            // Bring to front
+            Object.keys(windows).forEach(id => {
+                windows[id].style.zIndex = '10';
+            });
+            windows[windowId].style.zIndex = '100';
+        }
+    
+        function openApp(windowId) {
+            windows[windowId].style.display = 'block';
+            windows[windowId].classList.remove('minimized');
+            taskbarBtns[windowId].style.display = 'flex';
+            focusWindow(windowId);
+            hideStartMenu();
+        }
+    
+        function toggleStartMenu() {
+            if (startMenuVisible) {
+                hideStartMenu();
+            } else {
+                showStartMenu();
+            }
+        }
+    
+        function showStartMenu() {
+            startMenu.style.display = 'block';
+            startMenuVisible = true;
+        
+            document.addEventListener('click', closeStartMenuOnClickOutside);
+        }
+    
+        function hideStartMenu() {
+            startMenu.style.display = 'none';
+            startMenuVisible = false;
+        
+            document.removeEventListener('click', closeStartMenuOnClickOutside);
+        }
+    
+        function closeStartMenuOnClickOutside(event) {
+            if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+                hideStartMenu();
+            }
+        }
+    
+        function shutdownComputer() {
+            // Show shutdown screen
+            shutdownScreen.style.display = 'flex';
+        
+            // Hide everything else
+            document.querySelector('.desktop').style.display = 'none';
+            document.querySelector('.taskbar').style.display = 'none';
+        
+            // After delay, try to close the tab
+            setTimeout(() => {
+                document.querySelector('.shutdown-message').textContent = 'It\'s now safe to turn off your computer.';
+                powerButton.style.display = 'flex';
+            
+                // Attempt to close the window
+                try {
+                    // This will only work if the page was opened by a script
+                    window.close();
+                
+                    // If still open after 3 seconds, show power button
+                    setTimeout(() => {
+                        if (!window.closed) {
+                            powerButton.style.display = 'flex';
+                        }
+                    }, 3000);
+                } catch (e) {
+                    // If window.close() fails, show power button immediately
+                    powerButton.style.display = 'flex';
+                }
+            }, 2000);
+        }
+    
+        function powerOnComputer() {
+            // Hide shutdown screen
+            shutdownScreen.style.display = 'none';
+            powerButton.style.display = 'none';
+        
+            // Restore everything
+            document.querySelector('.desktop').style.display = 'block';
+            document.querySelector('.taskbar').style.display = 'flex';
+        
+            // Reset message
+            document.querySelector('.shutdown-message').textContent = 'Shutting down...';
+        }
+    
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            const date = now.toLocaleDateString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('time').textContent = time;
+            document.getElementById('date').textContent = date;
+        }
+    
+        // Carousel functions
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
+            });
+        
+            // Update indicators
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        
+            // Update status bar
+            statusBarField.textContent = `Image ${currentSlide + 1} of ${slides.length}`;
+        }
+    
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+    
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+    
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+    
+        // Set up dragging for all windows
+        Object.keys(windows).forEach(windowId => {
+            const windowElement = windows[windowId];
+            const titleBar = windowElement.querySelector('.title-bar');
+        
+            titleBar.addEventListener('mousedown', (e) => {
+                const windowState = windowStates[windowId];
+                if (windowState.isMaximized) return;
+            
+                // Bring to front
+                Object.keys(windows).forEach(id => {
+                    windows[id].style.zIndex = '10';
+                });
+                windowElement.style.zIndex = '100';
+            
+                // Check if this is a double click (within 300ms of last click)
+                const currentTime = new Date().getTime();
+                if (currentTime - lastClickTime < 300) {
+                    toggleMaximize(windowId);
+                    lastClickTime = 0;
+                    return;
+                }
+                lastClickTime = currentTime;
+            
+                isDragging = true;
+            
+                // Get initial positions
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+            
+                const rect = windowElement.getBoundingClientRect();
+                windowStartX = rect.left;
+                windowStartY = rect.top;
+            
+                windowElement.style.cursor = 'grabbing';
+                windowElement.style.transition = 'none';
+                document.body.style.userSelect = 'none';
+            
+                e.preventDefault();
+            });
+        });
+    
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+        
+            // Find the active window being dragged
+            let activeWindowId = null;
+            Object.keys(windows).forEach(windowId => {
+                const windowElement = windows[windowId];
+                if (parseInt(windowElement.style.zIndex) === 100) {
+                    activeWindowId = windowId;
+                }
+            });
+        
+            if (!activeWindowId || windowStates[activeWindowId].isMaximized) return;
+        
+            const windowElement = windows[activeWindowId];
+        
+            // Calculate new position
+            let newX = windowStartX + (e.clientX - dragStartX);
+            let newY = windowStartY + (e.clientY - dragStartY);
+        
+            // Constrain to screen boundaries
+            const windowWidth = windowElement.offsetWidth;
+            const windowHeight = windowElement.offsetHeight;
+        
+            newY = Math.max(0, newY);
+            newX = Math.max(0, Math.min(newX, window.innerWidth - windowWidth));
+        
+            windowElement.style.left = newX + 'px';
+            windowElement.style.top = newY + 'px';
+            windowElement.style.transform = 'none';
+        
+            e.preventDefault();
+        });
+    
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                Object.keys(windows).forEach(windowId => {
+                    const windowElement = windows[windowId];
+                    windowElement.style.cursor = 'default';
+                    windowElement.style.transition = 'all 0.2s ease';
+                });
+                document.body.style.userSelect = '';
+            }
+        });
+    
+        // Event listeners
+        startButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleStartMenu();
+        });
+    
+        shutdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            shutdownComputer();
+        });
+    
+        powerButton.addEventListener('click', function(e) {
+            powerOnComputer();
+        });
+    
+        updateClock();
+        setInterval(updateClock, 60000);
+    </script>
+</body>
+</html>
