@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/7.css">
     <style>
         body {
-            background: #008080 url('public/windowswallpaper.webp') no-repeat center center;
+            background: #008080 url('public/windowswallpaper.jpg') no-repeat center center;
             background-size: cover;
             height: 100vh;
             margin: 0;
@@ -163,7 +163,7 @@
         
         .taskbar-item.active {
             background: linear-gradient(to bottom, #7ba9f5, #4d8ef7);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         /* Windows 7 Clock */
@@ -190,7 +190,7 @@
             bottom: 40px;
             left: 0;
             width: 400px;
-            background: linear-gradient(to right, #4495bde0, #335579);
+            background: linear-gradient(to right, #4495bdd2, #335579de,#4495bdc2);
             border: 1px solid #000;
             border-radius: 0 6px 6px 0;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
@@ -200,7 +200,7 @@
         }
         
         .start-menu-header {
-            background: linear-gradient(to right, #4494bd, #335579);
+            background: linear-gradient(to right, #4495bdd7, #335579d7,#4495bdd7);
             padding: 12px;
             font-weight: bold;
             font-size: 18px;
@@ -383,7 +383,7 @@
             width: 16px;
             height: 16px;
             margin-right: 6px;
-            filter: brightness(0) invert(1) drop-shadow(0 1px 0 rgba(0,0,0,0.3));
+            filter: brightness(1) invert(0) drop-shadow(0 1px 0 rgba(0,0,0,0.3));
         }
 
         .taskbar-item span {
@@ -391,6 +391,44 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 120px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            background: #f0f0f0;
+        }
+
+        .tab.active {
+            background: white;
+            border-color: #ccc;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .placeholder-text {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px dashed #ccc;
         }
     </style>
 </head>
@@ -496,11 +534,6 @@
                     <li><strong>Bioscience High School Student Ambassador</strong>, July 2023 & July 2024</li>
                 </ul>
             </div>
-            <div class="status-bar">
-                <p class="status-bar-field">About Roger Ji</p>
-                <p class="status-bar-field">Resume</p>
-                <p class="status-bar-field">Windows 7</p>
-            </div>
         </div>
     
         <!-- Image Carousel Window -->
@@ -529,9 +562,148 @@
                     <div class="carousel-indicators" id="carouselIndicators"></div>
                 </div>
             </div>
-            <div class="status-bar">
-                <p class="status-bar-field">Image 1 of 3</p>
-                <p class="status-bar-field">Windows 7</p>
+        </div>
+
+        <!-- SOLIDWORKS Window -->
+        <div class="window" id="solidworksWindow" style="left: 300px; top: 200px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Projects</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('solidworksWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('solidworksWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('solidworksWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('solidworks', 'projects')">Projects</div>
+                    <div class="tab" onclick="switchTab('solidworks', 'designs')">Designs</div>
+                    <div class="tab" onclick="switchTab('solidworks', 'models')">3D Models</div>
+                    <div class="tab" onclick="switchTab('solidworks', 'simulations')">Simulations</div>
+                    <div class="tab" onclick="switchTab('solidworks', 'renderings')">Renderings</div>
+                </div>
+
+                <div class="tab-content active" id="solidworks-projects">
+                    <div class="carousel-container" id="solidworksCarouselContainer">
+                        <div class="carousel-slide">
+                            <img src="public\robotproject.jpg" alt="2025 Robot">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\MOCdemophoto.png" alt="MOC Demo">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\parabolicdish.jpg" alt="Parabolic Dish">
+                        </div>
+                        <button class="carousel-btn prev" onclick="prevSolidworksSlide()">❮</button>
+                        <button class="carousel-btn next" onclick="nextSolidworksSlide()">❯</button>
+                        <div class="carousel-indicators" id="solidworksCarouselIndicators"></div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>This section showcases my projects including mechanical designs, assemblies, and engineering solutions.</p>
+                        <p>Projects include robotics components, mobility assistance, and various mechanical systems.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="solidworks-designs">
+                    <div class="carousel-container" id="designsCarouselContainer">
+                        <div class="carousel-slide">
+                            <img src="public\catapultdrawing.png" alt="Catapult Drawing">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\helicopter.png" alt="Helicopter Drawing">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\Arm Bot drawing.png" alt="Arm Bot Drawing">
+                        </div>
+                        <button class="carousel-btn prev" onclick="prevDesignsSlide()">❮</button>
+                        <button class="carousel-btn next" onclick="nextDesignsSlide()">❯</button>
+                        <div class="carousel-indicators" id="designsCarouselIndicators"></div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>Detailed design work in SOLIDWORKS and OnShape including part drawings, specifications, and technical documentation.</p>
+                        <p>Each design follows engineering principles and manufacturing considerations.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="solidworks-models">
+                    <div class="carousel-container" id="modelsCarouselContainer">
+                        <div class="carousel-slide">
+                            <img src="public\2025robotCADphoto.png" alt="ROBOT CAD">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\customelevator.png" alt="Custom Elevator">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\mousetrapcar.png" alt="Mousetrap Car">
+                        </div>
+                        <button class="carousel-btn prev" onclick="prevModelsSlide()">❮</button>
+                        <button class="carousel-btn next" onclick="nextModelsSlide()">❯</button>
+                        <div class="carousel-indicators" id="modelsCarouselIndicators"></div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>3D modeling projects showcasing complex geometries, surface modeling, and parametric designs.</p>
+                        <p>Models are optimized for 3D printing, CNC machining, and other manufacturing processes.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="solidworks-simulations">
+                    <div class="carousel-container" id="simulationsCarouselContainer">
+                        <div class="carousel-slide">
+                            <img src="public\awesomeplaceholder.png" alt="Simulation 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\awesomeplaceholder.png" alt="Simulation 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\awesomeplaceholder.png" alt="Simulation 3">
+                        </div>
+                        <button class="carousel-btn prev" onclick="prevSimulationsSlide()">❮</button>
+                        <button class="carousel-btn next" onclick="nextSimulationsSlide()">❯</button>
+                        <div class="carousel-indicators" id="simulationsCarouselIndicators"></div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>Finite Element Analysis (FEA) and motion simulations to validate designs under various conditions.</p>
+                        <p>Includes stress analysis, thermal studies, and fluid flow simulations.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="solidworks-renderings">
+                    <div class="carousel-container" id="renderingsCarouselContainer">
+                        <div class="carousel-slide">
+                            <img src="public\testrender.jpg" alt="Rendering 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\coolcube.jpg" alt="Rendering 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public\assemblyrender.jpg" alt="Rendering 3">
+                        </div>
+                        <button class="carousel-btn prev" onclick="prevRenderingsSlide()">❮</button>
+                        <button class="carousel-btn next" onclick="nextRenderingsSlide()">❯</button>
+                        <div class="carousel-indicators" id="renderingsCarouselIndicators"></div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>Renderings of SOLIDWORKS models with realistic materials, lighting, and environments.</p>
+                        <p>Example models not designed entirely by me, but are rendered by me.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Download Window -->
+        <div class="window" id="downloadResumeWindow" style="left: 400px; top: 250px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Download Resume</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('downloadResumeWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('downloadResumeWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('downloadResumeWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h1>Download Resume</h1>
+                <p>Click the button below to download my resume:</p>
+                <a href="Downloads/Roger%20Ji%20Resume.pdf" download class="button">Download Resume</a>
             </div>
         </div>
     </div>
@@ -543,24 +715,28 @@
         </div>
         <div class="start-menu-items">
             <div class="start-menu-item" onclick="focusWindow('resumeWindow')">
-                <img src="https://cdn-icons-png.flaticon.com/512/888/888882.png" alt="Resume">
+                <img src="public/notepad.png" alt="Resume">
                 <span>View Resume</span>
             </div>
             <div class="start-menu-item" onclick="openApp('carouselWindow')">
-                <img src="https://cdn-icons-png.flaticon.com/512/833/833326.png" alt="Photos">
+                <img src="https://cdn-icons-png.flaticon.com/128/12081/12081049.png" alt="Photos">
                 <span>Image Carousel</span>
             </div>
+            <div class="start-menu-item" onclick="openApp('solidworksWindow')">
+                <img src="public/solidworksicon.png" alt="SOLIDWORKS">
+                <span>SOLIDWORKS</span>
+            </div>
             <div class="start-menu-item" onclick="window.open('http://linkedin.com/in/roger-ji-phx', '_blank')">
-                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+                <img src="https://cdn-icons-png.flaticon.com/128/3991/3991775.png" alt="LinkedIn">
                 <span>LinkedIn Profile</span>
             </div>
             <div class="start-menu-item" onclick="window.open('mailto:roger.ji.bhs@gmail.com')">
                 <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
                 <span>Send Email</span>
             </div>
-            <div class="start-menu-item" onclick="alert('This would open a browser in a real implementation')">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" alt="Internet">
-                <span>Internet Explorer</span>
+            <div class="start-menu-item" onclick="openApp('downloadResumeWindow')">
+                <img src="https://cdn-icons-png.flaticon.com/128/724/724933.png" alt="Download">
+                <span>Download Resume</span>
             </div>
         </div>
         <div class="start-menu-footer">
@@ -587,12 +763,20 @@
             <span>Start</span>
         </div>
         <div class="taskbar-item" id="resumeTaskbarBtn" onclick="focusWindow('resumeWindow')">
-            <img src="image (1) 1.png" class="taskbar-icon" alt="Resume">
+            <img src="public/notepad.png" class="taskbar-icon" alt="Resume">
             <span>Resume</span>
         </div>
         <div class="taskbar-item" id="carouselTaskbarBtn" onclick="focusWindow('carouselWindow')" style="display: none;">
-            <img src="https://cdn-icons-png.flaticon.com/512/833/833326.png" class="taskbar-icon" alt="Photos">
+            <img src="https://cdn-icons-png.flaticon.com/128/12081/12081049.png" class="taskbar-icon" alt="Photos">
             <span>Image Carousel</span>
+        </div>
+        <div class="taskbar-item" id="solidworksTaskbarBtn" onclick="focusWindow('solidworksWindow')" style="display: none;">
+            <img src="public/solidworksicon.png" class="taskbar-icon" alt="SOLIDWORKS">
+            <span>SOLIDWORKS</span>
+        </div>
+        <div class="taskbar-item" id="downloadResumeTaskbarBtn" onclick="focusWindow('downloadResumeWindow')" style="display: none;">
+            <img src="https://cdn-icons-png.flaticon.com/128/724/724933.png" class="taskbar-icon" alt="Download">
+            <span>Download Resume</span>
         </div>
         <div class="clock" id="clock">
             <span id="time">10:45 AM</span>
@@ -604,12 +788,16 @@
         // Window management
         const windows = {
             resumeWindow: document.getElementById('resumeWindow'),
-            carouselWindow: document.getElementById('carouselWindow')
+            carouselWindow: document.getElementById('carouselWindow'),
+            solidworksWindow: document.getElementById('solidworksWindow'),
+            downloadResumeWindow: document.getElementById('downloadResumeWindow')
         };
     
         const taskbarBtns = {
             resumeWindow: document.getElementById('resumeTaskbarBtn'),
-            carouselWindow: document.getElementById('carouselTaskbarBtn')
+            carouselWindow: document.getElementById('carouselTaskbarBtn'),
+            solidworksWindow: document.getElementById('solidworksTaskbarBtn'),
+            downloadResumeWindow: document.getElementById('downloadResumeTaskbarBtn')
         };
     
         const startButton = document.getElementById('startButton');
@@ -625,20 +813,96 @@
     
         // Carousel variables
         let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
+        const slides = document.querySelectorAll('#carouselContainer .carousel-slide');
         const indicatorsContainer = document.getElementById('carouselIndicators');
         const statusBarField = document.querySelector('#carouselWindow .status-bar-field');
     
-        // Initialize carousel indicators
-        slides.forEach((slide, index) => {
-            const indicator = document.createElement('div');
-            indicator.classList.add('carousel-indicator');
-            if (index === 0) indicator.classList.add('active');
-            indicator.addEventListener('click', () => goToSlide(index));
-            indicatorsContainer.appendChild(indicator);
-        });
+        // SOLIDWORKS carousels
+        let solidworksCurrentSlide = 0;
+        const solidworksSlides = document.querySelectorAll('#solidworksCarouselContainer .carousel-slide');
+        const solidworksIndicatorsContainer = document.getElementById('solidworksCarouselIndicators');
+
+        let designsCurrentSlide = 0;
+        const designsSlides = document.querySelectorAll('#designsCarouselContainer .carousel-slide');
+        const designsIndicatorsContainer = document.getElementById('designsCarouselIndicators');
+
+        let modelsCurrentSlide = 0;
+        const modelsSlides = document.querySelectorAll('#modelsCarouselContainer .carousel-slide');
+        const modelsIndicatorsContainer = document.getElementById('modelsCarouselIndicators');
+
+        let simulationsCurrentSlide = 0;
+        const simulationsSlides = document.querySelectorAll('#simulationsCarouselContainer .carousel-slide');
+        const simulationsIndicatorsContainer = document.getElementById('simulationsCarouselIndicators');
+
+        let renderingsCurrentSlide = 0;
+        const renderingsSlides = document.querySelectorAll('#renderingsCarouselContainer .carousel-slide');
+        const renderingsIndicatorsContainer = document.getElementById('renderingsCarouselIndicators');
     
-        updateCarousel();
+        // Initialize carousel indicators
+        function initCarousels() {
+            // Main carousel
+            slides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(index));
+                indicatorsContainer.appendChild(indicator);
+            });
+
+            // SOLIDWORKS carousels
+            solidworksSlides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSolidworksSlide(index));
+                solidworksIndicatorsContainer.appendChild(indicator);
+            });
+
+            designsSlides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToDesignsSlide(index));
+                designsIndicatorsContainer.appendChild(indicator);
+            });
+
+            modelsSlides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToModelsSlide(index));
+                modelsIndicatorsContainer.appendChild(indicator);
+            });
+
+            simulationsSlides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSimulationsSlide(index));
+                simulationsIndicatorsContainer.appendChild(indicator);
+            });
+
+            renderingsSlides.forEach((slide, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('carousel-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToRenderingsSlide(index));
+                renderingsIndicatorsContainer.appendChild(indicator);
+            });
+        }
+    
+        // Initialize all SolidWorks carousel positions
+        const initializeCarouselPositions = (slides) => {
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * index}%)`;
+            });
+        };
+
+        initializeCarouselPositions(solidworksSlides);
+        initializeCarouselPositions(designsSlides);
+        initializeCarouselPositions(modelsSlides);
+        initializeCarouselPositions(simulationsSlides);
+        initializeCarouselPositions(renderingsSlides);
     
         // Initialize window states
         let windowStates = {};
@@ -651,9 +915,8 @@
         });
     
         function minimizeWindow(windowId) {
-            windows[windowId].classList.add('minimized');
+            windows[windowId].style.display = 'none';
             taskbarBtns[windowId].classList.remove('active');
-            windowStates[windowId].isMinimized = true;
         }
     
         function toggleMaximize(windowId) {
@@ -662,8 +925,8 @@
                 windows[windowId].classList.remove('maximized');
                 windows[windowId].style.width = '800px';
                 windows[windowId].style.height = '600px';
-                windows[windowId].style.top = windowId === 'resumeWindow' ? '100px' : '150px';
-                windows[windowId].style.left = windowId === 'resumeWindow' ? '50%' : '200px';
+                windows[windowId].style.top = windowId === 'resumeWindow' ? '100px' : (windowId === 'carouselWindow' ? '150px' : '200px');
+                windows[windowId].style.left = windowId === 'resumeWindow' ? '50%' : (windowId === 'carouselWindow' ? '200px' : '300px');
                 windows[windowId].style.transform = windowId === 'resumeWindow' ? 'translateX(-50%)' : 'none';
             } else {
                 windowState.originalPosition = {
@@ -700,12 +963,31 @@
             windows[windowId].style.zIndex = '100';
         }
     
+        // Ensure the loading cursor prioritizes itself over other mouse icons
+        function setLoadingCursor() {
+            document.querySelectorAll('*').forEach(element => {
+                element.style.cursor = 'wait';
+            });
+        }
+
+        function resetCursor() {
+            document.querySelectorAll('*').forEach(element => {
+                element.style.cursor = '';
+            });
+        }
+
+        function openAppWithLoading(windowId) {
+            setLoadingCursor(); // Set loading cursor globally
+            setTimeout(() => {
+                focusWindow(windowId); // Ensure the window is focused after the delay
+                setTimeout(() => {
+                    resetCursor(); // Reset cursor globally after loading completes
+                }, 100); // Small buffer to ensure cursor resets after window opens
+            }, 1000); // 1-second delay
+        }
+
         function openApp(windowId) {
-            windows[windowId].style.display = 'block';
-            windows[windowId].classList.remove('minimized');
-            taskbarBtns[windowId].style.display = 'flex';
-            focusWindow(windowId);
-            hideStartMenu();
+            openAppWithLoading(windowId);
         }
     
         function toggleStartMenu() {
@@ -796,14 +1078,34 @@
             document.getElementById('date').textContent = date;
         }
     
-        // Carousel functions
+        // Tab switching
+        function switchTab(app, tabId) {
+            // Hide all tab contents
+            document.querySelectorAll(`#${app}Window .tab-content`).forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll(`#${app}Window .tab`).forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate selected tab and content
+            document.querySelector(`#${app}Window #${app}-${tabId}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            // Update status bar
+            document.querySelector(`#${app}Window .status-bar-field:nth-child(2)`).textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+        }
+    
+        // Main carousel functions
         function updateCarousel() {
             slides.forEach((slide, index) => {
                 slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
             });
         
             // Update indicators
-            const indicators = document.querySelectorAll('.carousel-indicator');
+            const indicators = document.querySelectorAll('#carouselIndicators .carousel-indicator');
             indicators.forEach((indicator, index) => {
                 if (index === currentSlide) {
                     indicator.classList.add('active');
@@ -829,6 +1131,157 @@
         function goToSlide(index) {
             currentSlide = index;
             updateCarousel();
+        }
+
+        // SOLIDWORKS Projects carousel functions
+        function updateSolidworksCarousel() {
+            solidworksSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - solidworksCurrentSlide)}%)`;
+            });
+        }
+
+        // Initialize SolidWorks carousel positions
+        solidworksSlides.forEach((slide, index) => {
+            slide.style.transform = `translateX(${100 * index}%)`;
+        });
+
+        function nextSolidworksSlide() {
+            solidworksCurrentSlide = (solidworksCurrentSlide + 1) % solidworksSlides.length;
+            updateSolidworksCarousel();
+        }
+    
+        function prevSolidworksSlide() {
+            solidworksCurrentSlide = (solidworksCurrentSlide - 1 + solidworksSlides.length) % solidworksSlides.length;
+            updateSolidworksCarousel();
+        }
+    
+        function goToSolidworksSlide(index) {
+            solidworksCurrentSlide = index;
+            updateSolidworksCarousel();
+        }
+
+        // Designs carousel functions
+        function updateDesignsCarousel() {
+            designsSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - designsCurrentSlide)}%)`;
+            });
+        
+            const indicators = document.querySelectorAll('#designsCarouselIndicators .carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === designsCurrentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+    
+        function nextDesignsSlide() {
+            designsCurrentSlide = (designsCurrentSlide + 1) % designsSlides.length;
+            updateDesignsCarousel();
+        }
+    
+        function prevDesignsSlide() {
+            designsCurrentSlide = (designsCurrentSlide - 1 + designsSlides.length) % designsSlides.length;
+            updateDesignsCarousel();
+        }
+    
+        function goToDesignsSlide(index) {
+            designsCurrentSlide = index;
+            updateDesignsCarousel();
+        }
+
+        // Models carousel functions
+        function updateModelsCarousel() {
+            modelsSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - modelsCurrentSlide)}%)`;
+            });
+        
+            const indicators = document.querySelectorAll('#modelsCarouselIndicators .carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === modelsCurrentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+    
+        function nextModelsSlide() {
+            modelsCurrentSlide = (modelsCurrentSlide + 1) % modelsSlides.length;
+            updateModelsCarousel();
+        }
+    
+        function prevModelsSlide() {
+            modelsCurrentSlide = (modelsCurrentSlide - 1 + modelsSlides.length) % modelsSlides.length;
+            updateModelsCarousel();
+        }
+    
+        function goToModelsSlide(index) {
+            modelsCurrentSlide = index;
+            updateModelsCarousel();
+        }
+
+        // Simulations carousel functions
+        function updateSimulationsCarousel() {
+            simulationsSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - simulationsCurrentSlide)}%)`;
+            });
+        
+            const indicators = document.querySelectorAll('#simulationsCarouselIndicators .carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === simulationsCurrentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+    
+        function nextSimulationsSlide() {
+            simulationsCurrentSlide = (simulationsCurrentSlide + 1) % simulationsSlides.length;
+            updateSimulationsCarousel();
+        }
+    
+        function prevSimulationsSlide() {
+            simulationsCurrentSlide = (simulationsCurrentSlide - 1 + simulationsSlides.length) % simulationsSlides.length;
+            updateSimulationsCarousel();
+        }
+    
+        function goToSimulationsSlide(index) {
+            simulationsCurrentSlide = index;
+            updateSimulationsCarousel();
+        }
+
+        // Renderings carousel functions
+        function updateRenderingsCarousel() {
+            renderingsSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - renderingsCurrentSlide)}%)`;
+            });
+        
+            const indicators = document.querySelectorAll('#renderingsCarouselIndicators .carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === renderingsCurrentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+    
+        function nextRenderingsSlide() {
+            renderingsCurrentSlide = (renderingsCurrentSlide + 1) % renderingsSlides.length;
+            updateRenderingsCarousel();
+        }
+    
+        function prevRenderingsSlide() {
+            renderingsCurrentSlide = (renderingsCurrentSlide - 1 + renderingsSlides.length) % renderingsSlides.length;
+            updateRenderingsCarousel();
+        }
+    
+        function goToRenderingsSlide(index) {
+            renderingsCurrentSlide = index;
+            updateRenderingsCarousel();
         }
     
         // Set up dragging for all windows
@@ -934,6 +1387,13 @@
             powerOnComputer();
         });
     
+        // Add loading buffer to the "View Resume" button
+        document.querySelector('.start-menu-item[onclick*="resumeWindow"]').onclick = function() {
+            openAppWithLoading('resumeWindow');
+        };
+
+        // Initialize everything
+        initCarousels();
         updateClock();
         setInterval(updateClock, 60000);
     </script>
