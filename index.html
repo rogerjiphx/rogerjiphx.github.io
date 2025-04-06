@@ -115,60 +115,76 @@
             box-shadow: 0 -1px 0 rgba(0,0,0,0.2);
         }
         
-        /* Windows 7 Start Button */
-        .start-button {
-            display: flex;
-            align-items: center;
-            height: 100%;
-            padding: 0 10px;
-            background: linear-gradient(to bottom, #5b9cf2, #3a6ea5);
-            color: white;
-            font-weight: bold;
-            border-right: 1px solid #1e4b8f;
-            cursor: pointer;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        
-        .start-button:hover {
-            background: linear-gradient(to bottom, #6cabf2, #4a7eb5);
-        }
-        
-        .start-button:active {
-            background: linear-gradient(to bottom, #3a6ea5, #5b9cf2);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        .start-button img {
-            height: 24px;
-            margin-right: 6px;
-            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
-        }
-        
-        /* Taskbar Items */
+        /* Updated Taskbar Items */
         .taskbar-item {
-            height: 30px;
-            padding: 0 8px;
+            height: 40px; /* Match taskbar height */
+            width: 50px; /* Slightly more rectangular */
+            padding: 0;
             margin: 0 3px;
-            background: linear-gradient(to bottom, rgba(123, 169, 245, 0.8), rgba(77, 142, 247, 0.8));
-            border: 1px solid #2d6fd1;
-            border-radius: 3px;
+            background: transparent; /* Remove background gradient */
+            border: none; /* Remove border */
             display: flex;
             align-items: center;
-            color: white;
-            font-size: 12px;
+            justify-content: center; /* Center the image */
             cursor: pointer;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
         }
-        
-        .taskbar-item:hover {
-            background: linear-gradient(to bottom, rgba(138, 180, 248, 0.9), rgba(92, 152, 252, 0.9));
+
+        .taskbar-item img {
+            width: 36px; /* Slightly larger icons */
+            height: 36px;
+            margin-left: 3px; /* Move slightly to the right */
         }
-        
+
+        #resumeTaskbarBtn img {
+            margin-left: 12px; /* Move "View Resume" icon 4 pixels to the right */
+        }
+
+        .taskbar-item span {
+            display: none; /* Hide text */
+        }
+
         .taskbar-item.active {
-            background: linear-gradient(to bottom, #7ba9f5, #4d8ef7);
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2); /* Highlight active item */
+            border-radius: 4px;
         }
-        
+
+        /* Updated Start Button */
+        .start-button {
+            width: 40px; /* Normal size */
+            height: 40px;
+            padding: 0;
+            background: transparent; /* Remove background gradient */
+            border: none; /* Remove border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .start-button img {
+            width: 32px; /* Normal size */
+            height: 32px;
+        }
+
+        .start-button span {
+            display: none; /* Hide text */
+        }
+
+        .start-button:hover,
+        .start-button.active {
+            background: rgba(255, 255, 255, 0.2); /* Highlight on hover or active */
+            border-radius: 4px;
+        }
+
+        .start-button img {
+            content: url('public/startbuttonidle.png'); /* Default idle image */
+        }
+
+        .start-button:hover img,
+        .start-button.active img {
+            content: url('public/startbuttonactive.png'); /* Active or hover image */
+        }
+
         /* Windows 7 Clock */
         .clock {
             margin-left: auto;
@@ -460,13 +476,6 @@
             height: 16px;
             margin-right: 6px;
             filter: brightness(1) invert(0) drop-shadow(0 1px 0 rgba(0,0,0,0.3));
-        }
-
-        .taskbar-item span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
         }
 
         /* Tabs */
@@ -764,6 +773,10 @@
 
         .window-body input[type="radio"] {
             margin-right: 5px;
+        }
+
+        #hardwareWindow img {
+            margin-left: 4px; /* Adjust taskbar icon alignment */
         }
     </style>
 </head>
@@ -1209,6 +1222,22 @@
                 </fieldset>
             </div>
         </div>
+
+        <!-- Hardware and Sound Window -->
+        <div class="window" id="hardwareWindow" style="display: none; left: 250px; top: 150px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Hardware and Sound</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('hardwareWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('hardwareWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('hardwareWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h3>Sound Settings</h3>
+                <button onclick="muteSound()">Mute Sound</button>
+            </div>
+        </div>
     </div>
     
     <!-- Windows 7 Style Start Menu -->
@@ -1286,24 +1315,34 @@
     
     <div class="taskbar">
         <div class="start-button" id="startButton">
-            <img src="public\startbuttonwindows.png" alt="Start">
-            <span>Start</span>
+            <img src="public/startbuttonidle.png" alt="Start">
         </div>
         <div class="taskbar-item" id="resumeTaskbarBtn" onclick="focusWindow('resumeWindow')">
             <img src="public\viewreseume.ico" class="taskbar-icon" alt="Resume">
-            <span>Resume</span>
         </div>
         <div class="taskbar-item" id="carouselTaskbarBtn" onclick="focusWindow('carouselWindow')" style="display: none;">
             <img src="public\imagecarousel.ico" class="taskbar-icon" alt="Photos">
-            <span>Image Carousel</span>
         </div>
         <div class="taskbar-item" id="solidworksTaskbarBtn" onclick="focusWindow('solidworksWindow')" style="display: none;">
             <img src="public/solidworksicon.png" class="taskbar-icon" alt="SOLIDWORKS">
-            <span>SOLIDWORKS</span>
         </div>
         <div class="taskbar-item" id="downloadResumeTaskbarBtn" onclick="focusWindow('downloadResumeWindow')" style="display: none;">
             <img src="public\downloadresume.ico" class="taskbar-icon" alt="Download">
-            <span>Download Resume</span>
+        </div>
+        <div class="taskbar-item" id="controlPanelTaskbarBtn" onclick="focusWindow('controlPanelWindow')" style="display: none;">
+            <img src="public/controlpanel.ico" class="taskbar-icon" alt="Control Panel">
+        </div>
+        <div class="taskbar-item" id="recycleBinTaskbarBtn" onclick="focusWindow('recycleBinWindow')" style="display: none;">
+            <img src="public/recyclebin.ico" class="taskbar-icon" alt="Recycle Bin">
+        </div>
+        <div class="taskbar-item" id="appearanceTaskbarBtn" onclick="focusWindow('appearanceWindow')" style="display: none;">
+            <img src="public/appearanceandpersonality.ico" class="taskbar-icon" alt="Appearance">
+        </div>
+        <div class="taskbar-item" id="languageTaskbarBtn" onclick="focusWindow('languageWindow')" style="display: none;">
+            <img src="public/language.ico" class="taskbar-icon" alt="Language">
+        </div>
+        <div class="taskbar-item" id="hardwareTaskbarBtn" onclick="focusWindow('hardwareWindow')" style="display: none;">
+            <img src="public/hardwareandsound.ico" class="taskbar-icon" alt="Hardware and Sound">
         </div>
         <div class="clock" id="clock">
             <span id="time"></span>
@@ -1321,7 +1360,8 @@
             recycleBinWindow: document.getElementById('recycleBinWindow'),
             controlPanelWindow: document.getElementById('controlPanelWindow'),
             appearanceWindow: document.getElementById('appearanceWindow'),
-            languageWindow: document.getElementById('languageWindow')
+            languageWindow: document.getElementById('languageWindow'),
+            hardwareWindow: document.getElementById('hardwareWindow')
         };
     
         const taskbarBtns = {
@@ -1329,10 +1369,11 @@
             carouselWindow: document.getElementById('carouselTaskbarBtn'),
             solidworksWindow: document.getElementById('solidworksTaskbarBtn'),
             downloadResumeWindow: document.getElementById('downloadResumeTaskbarBtn'),
-            recycleBinWindow: null, // No taskbar button for Recycle Bin
-            controlPanelWindow: null, // No taskbar button for Control Panel
-            appearanceWindow: null, // No taskbar button for Appearance
-            languageWindow: null // No taskbar button for Language
+            recycleBinWindow: document.getElementById('recycleBinTaskbarBtn'),
+            controlPanelWindow: document.getElementById('controlPanelTaskbarBtn'),
+            appearanceWindow: document.getElementById('appearanceTaskbarBtn'),
+            languageWindow: document.getElementById('languageTaskbarBtn'),
+            hardwareWindow: document.getElementById('hardwareTaskbarBtn')
         };
     
         const startButton = document.getElementById('startButton');
@@ -2243,6 +2284,30 @@
         function changeWallpaper(imagePath) {
             document.body.style.backgroundImage = `url('${imagePath}')`;
         }
+
+        // Mute sound function
+        function muteSound() {
+            console.log('Sound muted');
+            // Add actual sound muting logic here if needed
+        }
+
+        // Play error sound for unimplemented Control Panel items
+        function playErrorSound() {
+            const audio = new Audio('public/error.mp3');
+            audio.play();
+        }
+
+        // Handle Control Panel item clicks
+        document.querySelectorAll('.control-panel-icon').forEach(icon => {
+            icon.addEventListener('dblclick', (e) => {
+                const windowId = e.currentTarget.getAttribute('ondblclick').match(/'([^']+)'/)[1];
+                if (windows[windowId]) {
+                    openApp(windowId);
+                } else {
+                    playErrorSound();
+                }
+            });
+        });
     </script>
 </body>
 </html>
