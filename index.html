@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roger Ji - Resume</title>
     <link rel="stylesheet" href="https://unpkg.com/7.css">
+    <link rel="icon" href="public\startbuttonwindows.png" type="image/x-icon"> <!-- Add favicon -->
     <style>
         body {
             background: #008080 url('public/windowswallpaper.jpg') no-repeat center center;
@@ -15,6 +16,7 @@
             display: flex;
             flex-direction: column;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: normal;
         }
     
         .desktop {
@@ -22,6 +24,7 @@
             position: relative;
             overflow: hidden;
             padding-top: 20px;
+            overflow-y: auto; /* Enable scrolling for the desktop container */
         }
     
         .window {
@@ -48,7 +51,7 @@
         }
     
         .window-body {
-            overflow-y: auto;
+            overflow-y: auto; /* Ensure scrolling is enabled for window content */
             height: calc(100% - 60px);
             padding: 10px;
         }
@@ -184,74 +187,147 @@
             text-shadow: 0 1px 1px rgba(0,0,0,0.3);
         }
         
-        /* Windows 7 Start Menu */
+        /* Updated Aero Glass Effect with Extended Boundary */
         .start-menu {
             position: fixed;
             bottom: 40px;
             left: 0;
-            width: 400px;
-            background: linear-gradient(to right, #4495bdd2, #335579de,#4495bdc2);
-            border: 1px solid #000;
-            border-radius: 0 6px 6px 0;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            width: 450px;
+            background: linear-gradient(to bottom, rgba(76, 99, 121, 0.85), rgba(40, 40, 40, 0.9), rgba(89, 115, 139, 0.85));
+            backdrop-filter: blur(20px) brightness(1.2);
+            -webkit-backdrop-filter: blur(20px) brightness(1.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(83, 165, 197, 0.3);
             color: white;
             display: none;
             z-index: 2000;
+            overflow: visible; /* Allow content to overflow */
+            padding: 10px;
+            padding-top: 70px; /* Extend invisible boundary upwards */
         }
-        
-        .start-menu-header {
-            background: linear-gradient(to right, #4495bdd7, #335579d7,#4495bdd7);
-            padding: 12px;
-            font-weight: bold;
-            font-size: 18px;
-            border-bottom: 1px solid #000;
-            border-radius: 0 6px 0 0;
+
+        .start-menu-content {
+            display: flex;
+            height: 500px;
         }
-        
-        .start-menu-items {
-            padding: 8px 0;
+
+        .start-menu-left {
+            flex: 2;
             display: flex;
             flex-direction: column;
+            margin-right: 10px;
         }
-        
+
+        .start-menu-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .start-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .start-menu-link {
+            padding: 8px 15px;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .start-menu-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .start-menu-programs {
+            flex: 1;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            padding: 5px 0;
+            height: 550px; /* Extend white UI higher */
+        }
+
+        .start-menu-section {
+            margin-bottom: 5px;
+        }
+
+        .start-menu-section-title {
+            display: none; /* Hide section titles */
+        }
+
         .start-menu-item {
-            padding: 8px 20px;
+            padding: 8px 15px;
             cursor: pointer;
             display: flex;
             align-items: center;
             transition: background 0.1s;
+            font-size: 13px;
+            color: #333;
+            border-bottom: 1px solid #eee;
         }
-        
+
         .start-menu-item:hover {
-            background: linear-gradient(to right, #387c9e, #2b4968);
+            background: #e5f3ff !important;
         }
-        
+
         .start-menu-item img {
             width: 24px;
             height: 24px;
             margin-right: 12px;
-            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
         }
-        
-        .start-menu-footer {
-            background: linear-gradient(to right, #4494bd, #335479);
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #000;
-            font-size: 12px;
-            border-radius: 0 0 6px 0;
+
+        .start-menu-search {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
-        
-        .shutdown-btn {
-            cursor: pointer;
-            padding: 4px 10px;
+
+        .start-menu-search input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #a5cfff;
             border-radius: 3px;
-            transition: background 0.1s;
+            background: rgba(255, 255, 255, 0.9);
         }
-        
+
+        /* Updated Shutdown Button */
+        .shutdown-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: 30px;
+            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+            border: 1px solid #a0a0a0;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
+            color: black;
+            font-size: 14px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
         .shutdown-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .shutdown-btn:active {
+            background: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .title-bar {
@@ -430,10 +506,248 @@
             background: #f5f5f5;
             border: 1px dashed #ccc;
         }
+
+        /* User Icon Rectangle */
+        .user-icon {
+            position: absolute;
+            top: -30px; /* Adjusted for larger size */
+            right: 20%; /* Moved further to the right */
+            transform: translateX(50%);
+            width: 70px; /* Increased size */
+            height: 70px; /* Increased size */
+            background: linear-gradient(to bottom, #5b9cf2, #3a6ea5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 3000;
+        }
+
+        .user-icon img {
+            width: 100%; /* Display full image */
+            height: 100%; /* Display full image */
+            object-fit: cover; /* Ensure the image fits within the rectangle */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                overflow-y: auto; /* Enable scrolling for the entire page on mobile */
+            }
+
+            .desktop {
+                display: block; /* Make the desktop behave like a normal webpage */
+                padding: 0;
+                overflow-y: auto; /* Ensure scrolling works for the desktop container on mobile */
+            }
+
+            .window {
+                position: static; /* Remove absolute positioning */
+                width: 100%;
+                height: auto;
+                margin: 0;
+                transform: none;
+                border: none !important; /* Ensure borders are removed on mobile */
+                box-shadow: none !important; /* Remove shadow on mobile */
+                margin: 0 !important; /* Remove margin for mobile */
+            }
+
+            .title-bar-controls button {
+                pointer-events: none; /* Disable button functionality */
+                opacity: 0.5; /* Dim the buttons to indicate they are disabled */
+            }
+
+            .window-body {
+                overflow-y: auto; /* Ensure scrolling is enabled on mobile */
+                height: auto; /* Adjust height for content */
+            }
+
+            .tabs {
+                flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+            }
+
+            .tab {
+                flex: 1 1 100%; /* Make tabs full-width on smaller screens */
+                text-align: center;
+            }
+
+            .start-menu {
+                display: none !important; /* Completely hide the start menu on mobile */
+            }
+
+            .taskbar {
+                display: flex; /* Ensure the taskbar is visible */
+                height: auto;
+                flex-wrap: wrap; /* Allow taskbar items to wrap */
+            }
+
+            .shutdown-btn {
+                pointer-events: none; /* Disable shutdown button functionality */
+                opacity: 0.5; /* Dim the button to indicate it is disabled */
+            }
+
+            .start-button {
+                display: flex; /* Ensure the start button is visible */
+            }
+
+            #mobilePopup {
+                display: flex !important; /* Ensure it shows on mobile */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                z-index: 9999;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            #mobilePopup button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #ffffff;
+                color: #000;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            #mobilePopup button:hover {
+                background: #f0f0f0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 12px;
+            }
+
+            .window {
+                padding: 10px; /* Add padding for smaller screens */
+            }
+
+            .tab {
+                font-size: 14px; /* Adjust tab font size for smaller screens */
+            }
+        }
+
+        #resumeWindow {
+            border: none !important; /* Remove borders for the resume window */
+            box-shadow: none !important; /* Remove shadow for the resume window */
+        }
+
+        #mobilePopup {
+            display: none; /* Default to hidden */
+        }
+
+        /* Desktop Icon Styles */
+        .desktop-icon {
+            position: absolute;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .desktop-icon img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 5px;
+        }
+
+        .desktop-icon span {
+            font-size: 12px;
+            color: white;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            display: block;
+            padding: 2px;
+            background-color: transparent; /* Default to transparent */
+            border-radius: 3px;
+        }
+
+        .desktop-icon.selected span {
+            background-color: rgba(0, 0, 255, 0.5); /* Highlight only when selected */
+        }
+
+        .desktop-icon:hover span {
+            text-decoration: underline;
+        }
+
+        body, * {
+            user-select: none; /* Disable text selection */
+        }
+
+        .table-view {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .table-view th, .table-view td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-view th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .table-view tbody tr:hover {
+            background: #e5f3ff;
+        }
+
+        .lasso {
+            position: absolute;
+            border: 1px dashed #0078d7;
+            background-color: rgba(0, 120, 215, 0.2);
+            pointer-events: none;
+            z-index: 1; /* Below windows */
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="desktop">
+    <div id="mobilePopup">
+        <div>
+            <p>This site was designed for desktops. For the best experience, please visit on a desktop device.</p>
+            <button onclick="closeMobilePopup()">Close</button>
+        </div>
+    </div>
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon" ondblclick="openApp('recycleBinWindow')" style="top: 20px; left: 20px;">
+            <img src="public/recyclebin.ico" alt="Recycle Bin">
+            <span>Recycle Bin</span>
+        </div>
+        <div class="desktop-icon" ondblclick="focusWindow('resumeWindow')" style="top: 120px; left: 20px;">
+            <img src="public/viewreseume.ico" alt="Resume">
+            <span>Resume</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('carouselWindow')" style="top: 220px; left: 20px;">
+            <img src="public/imagecarousel.ico" alt="Photos">
+            <span>Image Carousel</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('solidworksWindow')" style="top: 320px; left: 20px;">
+            <img src="public/solidworksicon.png" alt="SOLIDWORKS">
+            <span>SOLIDWORKS</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('downloadResumeWindow')" style="top: 420px; left: 20px;">
+            <img src="public/downloadresume.ico" alt="Download Resume">
+            <span>Download Resume</span>
+        </div>
+        <div id="lasso" class="lasso"></div>
         <!-- Resume Window -->
         <div class="window active" id="resumeWindow">
             <div class="title-bar">
@@ -706,47 +1020,123 @@
                 <a href="Downloads/Roger%20Ji%20Resume.pdf" download class="button">Download Resume</a>
             </div>
         </div>
+
+        <!-- Recycle Bin Window -->
+        <div class="window" id="recycleBinWindow" style="left: 100px; top: 100px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Recycle Bin</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('recycleBinWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('recycleBinWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('recycleBinWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <table class="table-view">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">Icon</th>
+                            <th>Name</th>
+                            <th style="width: 150px;">Date Deleted</th>
+                            <th style="width: 100px;">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="public\page.ico" alt="Text File" style="width: 24px; height: 24px;"></td>
+                            <td>Negative Attitudes.txt</td>
+                            <td>2025-03-01</td>
+                            <td>Text Document</td>
+                        </tr>
+                        <tr>
+                            <td><img src="public\downloadresume.ico" alt="Text File" style="width: 24px; height: 24px;"></td>
+                            <td>Procrastination.txt</td>
+                            <td>2025-03-02</td>
+                            <td>Text Document</td>
+                        </tr>
+                        <tr>
+                            <td><img src="public\sendemail.ico" alt="Text File" style="width: 24px; height: 24px;"></td>
+                            <td>Self-Doubt.txt</td>
+                            <td>2025-03-03</td>
+                            <td>Text Document</td>
+                        </tr>
+                        <tr>
+                            <td><img src="public\viewreseume.ico" alt="Text File" style="width: 24px; height: 24px;"></td>
+                            <td>Unnecessary Stress.txt</td>
+                            <td>2025-03-04</td>
+                            <td>Text Document</td>
+                        </tr>
+                        <tr>
+                            <td><img src="public\recycleditem.ico" alt="Text File" style="width: 24px; height: 24px;"></td>
+                            <td>Old Unused Ideas.txt</td>
+                            <td>2025-03-05</td>
+                            <td>Text Document</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     
-    <!-- Start Menu -->
+    <!-- Windows 7 Style Start Menu -->
     <div class="start-menu" id="startMenu">
-        <div class="start-menu-header">
-            Roger Ji's Computer
+        <div class="user-icon">
+            <img src="public\usericon.png" alt="User Icon">
         </div>
-        <div class="start-menu-items">
-            <div class="start-menu-item" onclick="focusWindow('resumeWindow')">
-                <img src="public/notepad.png" alt="Resume">
-                <span>View Resume</span>
+        <div class="start-menu-content">
+            <div class="start-menu-left">
+                <div class="start-menu-programs">
+                    <div class="start-menu-section">
+                        <div class="start-menu-item" onclick="focusWindow('resumeWindow')">
+                            <img src="public\viewreseume.ico" alt="Resume">
+                            <span>View Resume</span>
+                        </div>
+                        <div class="start-menu-item" onclick="openApp('carouselWindow')">
+                            <img src="public\imagecarousel.ico" alt="Photos">
+                            <span>Image Carousel</span>
+                        </div>
+                        <div class="start-menu-item" onclick="openApp('solidworksWindow')">
+                            <img src="public/solidworksicon.png" alt="SOLIDWORKS">
+                            <span>SOLIDWORKS</span>
+                        </div>
+                    </div>
+                    <div class="start-menu-section">
+                        <div class="start-menu-item" onclick="window.open('http://linkedin.com/in/roger-ji-phx', '_blank')">
+                            <img src="https://cdn-icons-png.flaticon.com/128/3991/3991775.png" alt="LinkedIn">
+                            <span>LinkedIn Profile</span>
+                        </div>
+                        <div class="start-menu-item" onclick="window.open('mailto:roger.ji.bhs@gmail.com')">
+                            <img src="public\sendemail.ico" alt="Email">
+                            <span>Send Email</span>
+                        </div>
+                    </div>
+                    <div class="start-menu-section">
+                        <div class="start-menu-item" onclick="openApp('downloadResumeWindow')">
+                            <img src="public\downloadresume.ico" alt="Download">
+                            <span>Download Resume</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="start-menu-search">
+                    <input type="text" placeholder="Search programs and files">
+                </div>
             </div>
-            <div class="start-menu-item" onclick="openApp('carouselWindow')">
-                <img src="https://cdn-icons-png.flaticon.com/128/12081/12081049.png" alt="Photos">
-                <span>Image Carousel</span>
-            </div>
-            <div class="start-menu-item" onclick="openApp('solidworksWindow')">
-                <img src="public/solidworksicon.png" alt="SOLIDWORKS">
-                <span>SOLIDWORKS</span>
-            </div>
-            <div class="start-menu-item" onclick="window.open('http://linkedin.com/in/roger-ji-phx', '_blank')">
-                <img src="https://cdn-icons-png.flaticon.com/128/3991/3991775.png" alt="LinkedIn">
-                <span>LinkedIn Profile</span>
-            </div>
-            <div class="start-menu-item" onclick="window.open('mailto:roger.ji.bhs@gmail.com')">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-                <span>Send Email</span>
-            </div>
-            <div class="start-menu-item" onclick="openApp('downloadResumeWindow')">
-                <img src="https://cdn-icons-png.flaticon.com/128/724/724933.png" alt="Download">
-                <span>Download Resume</span>
+            <div class="start-menu-right">
+                <ul class="start-menu-links">
+                    <li class="start-menu-link">Information</li>
+                    <li class="start-menu-link">Documents</li>
+                    <li class="start-menu-link">Images</li>
+                    <li class="start-menu-link">Music</li>
+                    <li class="start-menu-link">Recent Items</li>
+                    <li class="start-menu-link">Computer</li>
+                    <li class="start-menu-link">Network</li>
+                    <li class="start-menu-link">Control Panel</li>
+                    <li class="start-menu-link">Devices and Printers</li>
+                    <li class="start-menu-link">Default Programs</li>
+                </ul>
             </div>
         </div>
-        <div class="start-menu-footer">
-            <div class="shutdown-btn" id="shutdownBtn">
-                Shut Down
-            </div>
-            <div>
-                User: Roger
-            </div>
-        </div>
+        <button class="shutdown-btn glass-button" id="shutdownBtn">Shutdown</button>
     </div>
     
     <!-- Shutdown Screen -->
@@ -759,15 +1149,15 @@
     
     <div class="taskbar">
         <div class="start-button" id="startButton">
-            <img src="public/startbuttonwindows.png" alt="Start">
+            <img src="public\startbuttonwindows.png" alt="Start">
             <span>Start</span>
         </div>
         <div class="taskbar-item" id="resumeTaskbarBtn" onclick="focusWindow('resumeWindow')">
-            <img src="public/notepad.png" class="taskbar-icon" alt="Resume">
+            <img src="public\viewreseume.ico" class="taskbar-icon" alt="Resume">
             <span>Resume</span>
         </div>
         <div class="taskbar-item" id="carouselTaskbarBtn" onclick="focusWindow('carouselWindow')" style="display: none;">
-            <img src="https://cdn-icons-png.flaticon.com/128/12081/12081049.png" class="taskbar-icon" alt="Photos">
+            <img src="public\imagecarousel.ico" class="taskbar-icon" alt="Photos">
             <span>Image Carousel</span>
         </div>
         <div class="taskbar-item" id="solidworksTaskbarBtn" onclick="focusWindow('solidworksWindow')" style="display: none;">
@@ -775,29 +1165,31 @@
             <span>SOLIDWORKS</span>
         </div>
         <div class="taskbar-item" id="downloadResumeTaskbarBtn" onclick="focusWindow('downloadResumeWindow')" style="display: none;">
-            <img src="https://cdn-icons-png.flaticon.com/128/724/724933.png" class="taskbar-icon" alt="Download">
+            <img src="public\downloadresume.ico" class="taskbar-icon" alt="Download">
             <span>Download Resume</span>
         </div>
         <div class="clock" id="clock">
-            <span id="time">10:45 AM</span>
-            <span id="date">10/25/2023</span>
+            <span id="time"></span>
+            <span id="date"></span>
         </div>
     </div>
-
+    
     <script>
         // Window management
         const windows = {
             resumeWindow: document.getElementById('resumeWindow'),
             carouselWindow: document.getElementById('carouselWindow'),
             solidworksWindow: document.getElementById('solidworksWindow'),
-            downloadResumeWindow: document.getElementById('downloadResumeWindow')
+            downloadResumeWindow: document.getElementById('downloadResumeWindow'),
+            recycleBinWindow: document.getElementById('recycleBinWindow')
         };
     
         const taskbarBtns = {
             resumeWindow: document.getElementById('resumeTaskbarBtn'),
             carouselWindow: document.getElementById('carouselTaskbarBtn'),
             solidworksWindow: document.getElementById('solidworksTaskbarBtn'),
-            downloadResumeWindow: document.getElementById('downloadResumeTaskbarBtn')
+            downloadResumeWindow: document.getElementById('downloadResumeTaskbarBtn'),
+            recycleBinWindow: null // No taskbar button for Recycle Bin
         };
     
         const startButton = document.getElementById('startButton');
@@ -916,7 +1308,7 @@
     
         function minimizeWindow(windowId) {
             windows[windowId].style.display = 'none';
-            taskbarBtns[windowId].classList.remove('active');
+            taskbarBtns[windowId]?.classList.remove('active');
         }
     
         function toggleMaximize(windowId) {
@@ -943,16 +1335,20 @@
     
         function closeWindow(windowId) {
             windows[windowId].style.display = 'none';
-            taskbarBtns[windowId].classList.remove('active');
-            taskbarBtns[windowId].style.display = 'none';
+            if (taskbarBtns[windowId]) {
+                taskbarBtns[windowId].classList.remove('active');
+                taskbarBtns[windowId].style.display = 'none';
+            }
         }
     
         function focusWindow(windowId) {
             windows[windowId].style.display = 'block';
             windows[windowId].classList.remove('minimized');
             windows[windowId].classList.add('active');
-            taskbarBtns[windowId].classList.add('active');
-            taskbarBtns[windowId].style.display = 'flex';
+            if (taskbarBtns[windowId]) {
+                taskbarBtns[windowId].classList.add('active');
+                taskbarBtns[windowId].style.display = 'flex';
+            }
             hideStartMenu();
             windowStates[windowId].isMinimized = false;
         
@@ -1396,6 +1792,139 @@
         initCarousels();
         updateClock();
         setInterval(updateClock, 60000);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const closeButton = document.querySelector('#mobilePopup button');
+            if (closeButton) {
+                closeButton.addEventListener('click', closeMobilePopup);
+            } else {
+                console.error('Close button for mobile popup not found.');
+            }
+        });
+
+        function closeMobilePopup() {
+            const popup = document.getElementById('mobilePopup');
+            if (popup) {
+                popup.style.zIndex = '-1'; // Send the popup to the lowest layer
+                console.log('Mobile popup sent to the lowest layer.');
+            } else {
+                console.error('Mobile popup element not found.');
+            }
+        }
+
+        // Lasso selection functionality
+        const desktop = document.getElementById('desktop');
+        const lasso = document.getElementById('lasso');
+        let isDraggingLasso = false;
+        let startX, startY;
+        let selectedIcons = [];
+
+        function clearSelection() {
+            selectedIcons.forEach(icon => {
+                icon.classList.remove('selected');
+            });
+            selectedIcons = [];
+        }
+
+        function selectIconsInRect(rect) {
+            const icons = document.querySelectorAll('.desktop-icon');
+            icons.forEach(icon => {
+                const iconRect = icon.getBoundingClientRect();
+                if (
+                    iconRect.right > rect.left &&
+                    iconRect.left < rect.right &&
+                    iconRect.bottom > rect.top &&
+                    iconRect.top < rect.bottom
+                ) {
+                    icon.classList.add('selected');
+                    if (!selectedIcons.includes(icon)) {
+                        selectedIcons.push(icon);
+                    }
+                } else {
+                    icon.classList.remove('selected');
+                    selectedIcons = selectedIcons.filter(i => i !== icon);
+                }
+            });
+        }
+
+        desktop.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.desktop-icon') || e.target.closest('.window')) {
+                // Clicked on an icon or window, don't start lasso
+                clearSelection();
+                return;
+            }
+            
+            // Start lasso selection
+            isDraggingLasso = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            lasso.style.left = `${startX}px`;
+            lasso.style.top = `${startY}px`;
+            lasso.style.width = '0px';
+            lasso.style.height = '0px';
+            lasso.style.display = 'block';
+            
+            // Clear previous selection
+            clearSelection();
+        });
+
+        desktop.addEventListener('mousemove', (e) => {
+            if (!isDraggingLasso) return;
+            
+            const currentX = e.clientX;
+            const currentY = e.clientY;
+            
+            // Update lasso dimensions
+            const left = Math.min(startX, currentX);
+            const top = Math.min(startY, currentY);
+            const width = Math.abs(currentX - startX);
+            const height = Math.abs(currentY - startY);
+            
+            lasso.style.left = `${left}px`;
+            lasso.style.top = `${top}px`;
+            lasso.style.width = `${width}px`;
+            lasso.style.height = `${height}px`;
+            
+            // Select icons within the lasso
+            const lassoRect = {
+                left: left,
+                top: top,
+                right: left + width,
+                bottom: top + height
+            };
+            selectIconsInRect(lassoRect);
+        });
+
+        desktop.addEventListener('mouseup', () => {
+            if (isDraggingLasso) {
+                isDraggingLasso = false;
+                lasso.style.display = 'none';
+                
+                // If no icons were selected, clear selection
+                if (selectedIcons.length === 0) {
+                    clearSelection();
+                }
+            }
+        });
+
+        // Handle icon clicks (single click to select, double click to open)
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                if (isDraggingLasso) return;
+                
+                // Single click - select this icon only
+                clearSelection();
+                icon.classList.add('selected');
+                selectedIcons.push(icon);
+            });
+        });
+
+        // Close lasso selection when clicking elsewhere
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.desktop-icon') && !e.target.closest('.window') && !isDraggingLasso) {
+                clearSelection();
+            }
+        });
     </script>
 </body>
 </html>
