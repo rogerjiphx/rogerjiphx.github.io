@@ -716,6 +716,55 @@
             z-index: 1; /* Below windows */
             display: none;
         }
+
+        .control-panel-icons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .control-panel-icon {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .control-panel-icon img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 10px;
+        }
+
+        .control-panel-icon span {
+            display: block;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .window-body fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 0;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .window-body legend {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .window-body label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .window-body input[type="radio"] {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -1076,6 +1125,90 @@
                 </table>
             </div>
         </div>
+
+        <!-- Control Panel Window -->
+        <div class="window" id="controlPanelWindow" style="display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Control Panel</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('controlPanelWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('controlPanelWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('controlPanelWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="control-panel-icons">
+                    <div class="control-panel-icon" ondblclick="openApp('appearanceWindow')">
+                        <img src="public/appearanceandpersonality.ico" alt="Appearance and Personalization">
+                        <span>Appearance and Personalization</span>
+                    </div>
+                    <div class="control-panel-icon" ondblclick="openApp('systemSecurityWindow')">
+                        <img src="public/security.ico" alt="System and Security">
+                        <span>System and Security</span>
+                    </div>
+                    <div class="control-panel-icon" ondblclick="openApp('networkWindow')">
+                        <img src="public/networksettings.ico" alt="Network and Internet">
+                        <span>Network and Internet</span>
+                    </div>
+                    <div class="control-panel-icon" ondblclick="openApp('hardwareWindow')">
+                        <img src="public/hardwareandsound.ico" alt="Hardware and Sound">
+                        <span>Hardware and Sound</span>
+                    </div>
+                    <div class="control-panel-icon" ondblclick="openApp('languageWindow')">
+                        <img src="public/language.ico" alt="Language">
+                        <span>Language</span>
+                    </div>
+                    <div class="control-panel-icon" ondblclick="openApp('userAccountsWindow')">
+                        <img src="public/useraccounts.ico" alt="User Accounts">
+                        <span>User Accounts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appearance Window -->
+        <div class="window" id="appearanceWindow" style="display: none; left: 150px; top: 100px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Appearance and Personalization</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('appearanceWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('appearanceWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('appearanceWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <p>Customize your appearance and personalization settings here.</p>
+                <div>
+                    <h3>Choose Wallpaper</h3>
+                    <button onclick="changeWallpaper('public/windowswallpaper.jpg')">Default</button>
+                    <button onclick="changeWallpaper('public/wallpaperfrutigier.png')">Frutigier Aero</button>
+                    <button onclick="changeWallpaper('public/wallpaperxp.jpg')">Windows XP</button>
+                    <button onclick="changeWallpaper('public/wallpaperplane.jpg')">Aerial View</button>
+                    <button onclick="changeWallpaper('public/wallpaperbpcrevised.jpg')">BPC</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language Window -->
+        <div class="window" id="languageWindow" style="display: none; left: 200px; top: 150px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Language Settings</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('languageWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('languageWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('languageWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <fieldset>
+                    <legend>Choose Language</legend>
+                    <label><input type="radio" name="language" value="en" id="english"> English</label><br>
+                    <label><input type="radio" name="language" value="es" id="spanish"> Spanish</label><br>
+                    <label><input type="radio" name="language" value="fr" id="french"> French</label><br>
+                    <label><input type="radio" name="language" value="de" id="german"> German</label>
+                </fieldset>
+            </div>
+        </div>
     </div>
     
     <!-- Windows 7 Style Start Menu -->
@@ -1114,6 +1247,10 @@
                         <div class="start-menu-item" onclick="openApp('downloadResumeWindow')">
                             <img src="public\downloadresume.ico" alt="Download">
                             <span>Download Resume</span>
+                        </div>
+                        <div class="start-menu-item" onclick="openApp('controlPanelWindow')">
+                            <img src="public/controlpanel.ico" alt="Control Panel">
+                            <span>Control Panel</span>
                         </div>
                     </div>
                 </div>
@@ -1181,7 +1318,10 @@
             carouselWindow: document.getElementById('carouselWindow'),
             solidworksWindow: document.getElementById('solidworksWindow'),
             downloadResumeWindow: document.getElementById('downloadResumeWindow'),
-            recycleBinWindow: document.getElementById('recycleBinWindow')
+            recycleBinWindow: document.getElementById('recycleBinWindow'),
+            controlPanelWindow: document.getElementById('controlPanelWindow'),
+            appearanceWindow: document.getElementById('appearanceWindow'),
+            languageWindow: document.getElementById('languageWindow')
         };
     
         const taskbarBtns = {
@@ -1189,7 +1329,10 @@
             carouselWindow: document.getElementById('carouselTaskbarBtn'),
             solidworksWindow: document.getElementById('solidworksTaskbarBtn'),
             downloadResumeWindow: document.getElementById('downloadResumeTaskbarBtn'),
-            recycleBinWindow: null // No taskbar button for Recycle Bin
+            recycleBinWindow: null, // No taskbar button for Recycle Bin
+            controlPanelWindow: null, // No taskbar button for Control Panel
+            appearanceWindow: null, // No taskbar button for Appearance
+            languageWindow: null // No taskbar button for Language
         };
     
         const startButton = document.getElementById('startButton');
@@ -1341,22 +1484,39 @@
             }
         }
     
+        function centerWindow(windowId) {
+            const windowElement = windows[windowId];
+            const windowWidth = windowElement.offsetWidth;
+            const windowHeight = windowElement.offsetHeight;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            const left = (screenWidth - windowWidth) / 2;
+            const top = (screenHeight - windowHeight) / 2;
+
+            windowElement.style.left = `${left}px`;
+            windowElement.style.top = `${top}px`;
+            windowElement.style.transform = 'none';
+        }
+
         function focusWindow(windowId) {
-            windows[windowId].style.display = 'block';
-            windows[windowId].classList.remove('minimized');
-            windows[windowId].classList.add('active');
+            const windowElement = windows[windowId];
+            windowElement.style.display = 'block';
+            windowElement.classList.remove('minimized');
+            windowElement.classList.add('active');
+            centerWindow(windowId); // Center the window when it opens
             if (taskbarBtns[windowId]) {
                 taskbarBtns[windowId].classList.add('active');
                 taskbarBtns[windowId].style.display = 'flex';
             }
             hideStartMenu();
             windowStates[windowId].isMinimized = false;
-        
+
             // Bring to front
             Object.keys(windows).forEach(id => {
                 windows[id].style.zIndex = '10';
             });
-            windows[windowId].style.zIndex = '100';
+            windowElement.style.zIndex = '100';
         }
     
         // Ensure the loading cursor prioritizes itself over other mouse icons
@@ -1404,7 +1564,8 @@
         function hideStartMenu() {
             startMenu.style.display = 'none';
             startMenuVisible = false;
-        
+            searchInput.value = ''; // Clear search input
+            startMenuItems.forEach(item => item.style.display = 'flex'); // Reset item visibility
             document.removeEventListener('click', closeStartMenuOnClickOutside);
         }
     
@@ -1788,6 +1949,13 @@
             openAppWithLoading('resumeWindow');
         };
 
+        document.querySelectorAll('.control-panel-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                const windowId = e.currentTarget.getAttribute('ondblclick').match(/'([^']+)'/)[1];
+                openApp(windowId);
+            });
+        });
+
         // Initialize everything
         initCarousels();
         updateClock();
@@ -1925,6 +2093,156 @@
                 clearSelection();
             }
         });
+
+        // Search bar functionality
+        const searchInput = document.querySelector('.start-menu-search input');
+        const startMenuItems = document.querySelectorAll('.start-menu-item');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            startMenuItems.forEach(item => {
+                const itemText = item.querySelector('span').textContent.toLowerCase();
+                if (itemText.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        function toggleLanguageGroupbox() {
+            const groupbox = document.getElementById('languageGroupbox');
+            groupbox.style.display = groupbox.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', (event) => {
+            const groupbox = document.getElementById('languageGroupbox');
+            if (groupbox && !groupbox.contains(event.target) && event.target.textContent !== 'Language') {
+                groupbox.style.display = 'none';
+            }
+        });
+
+        const translations = {
+            en: {
+                appearance: "Appearance and Personalization",
+                language: "Language",
+                userAccounts: "User Accounts",
+                resume: "Resume",
+                downloadResume: "Download Resume",
+                imageCarousel: "Image Carousel",
+                solidworks: "SOLIDWORKS",
+                recycleBin: "Recycle Bin",
+                viewResume: "View Resume",
+                sendEmail: "Send Email",
+                linkedInProfile: "LinkedIn Profile",
+                controlPanel: "Control Panel",
+                shutdown: "Shutdown",
+                chooseLanguage: "Choose Language",
+                english: "English",
+                spanish: "Spanish",
+                french: "French",
+                german: "German"
+            },
+            es: {
+                appearance: "Apariencia y Personalización",
+                language: "Idioma",
+                userAccounts: "Cuentas de Usuario",
+                resume: "Currículum",
+                downloadResume: "Descargar Currículum",
+                imageCarousel: "Carrusel de Imágenes",
+                solidworks: "SOLIDWORKS",
+                recycleBin: "Papelera de Reciclaje",
+                viewResume: "Ver Currículum",
+                sendEmail: "Enviar Correo",
+                linkedInProfile: "Perfil de LinkedIn",
+                controlPanel: "Panel de Control",
+                shutdown: "Apagar",
+                chooseLanguage: "Elegir Idioma",
+                english: "Inglés",
+                spanish: "Español",
+                french: "Francés",
+                german: "Alemán"
+            },
+            fr: {
+                appearance: "Apparence et Personnalisation",
+                language: "Langue",
+                userAccounts: "Comptes Utilisateur",
+                resume: "CV",
+                downloadResume: "Télécharger le CV",
+                imageCarousel: "Carrousel d'Images",
+                solidworks: "SOLIDWORKS",
+                recycleBin: "Corbeille",
+                viewResume: "Voir le CV",
+                sendEmail: "Envoyer un Email",
+                linkedInProfile: "Profil LinkedIn",
+                controlPanel: "Panneau de Configuration",
+                shutdown: "Éteindre",
+                chooseLanguage: "Choisir la Langue",
+                english: "Anglais",
+                spanish: "Espagnol",
+                french: "Français",
+                german: "Allemand"
+            },
+            de: {
+                appearance: "Aussehen und Personalisierung",
+                language: "Sprache",
+                userAccounts: "Benutzerkonten",
+                resume: "Lebenslauf",
+                downloadResume: "Lebenslauf Herunterladen",
+                imageCarousel: "Bildkarussell",
+                solidworks: "SOLIDWORKS",
+                recycleBin: "Papierkorb",
+                viewResume: "Lebenslauf Anzeigen",
+                sendEmail: "E-Mail Senden",
+                linkedInProfile: "LinkedIn-Profil",
+                controlPanel: "Systemsteuerung",
+                shutdown: "Herunterfahren",
+                chooseLanguage: "Sprache Wählen",
+                english: "Englisch",
+                spanish: "Spanisch",
+                french: "Französisch",
+                german: "Deutsch"
+            }
+        };
+
+        function translatePage(language) {
+            const elementsToTranslate = {
+                appearance: document.querySelector("span[ondblclick*='appearanceWindow']"),
+                language: document.querySelector("span[ondblclick*='languageWindow']"),
+                userAccounts: document.querySelector("span[ondblclick*='userAccountsWindow']"),
+                resume: document.querySelector("span[ondblclick*='resumeWindow']"),
+                downloadResume: document.querySelector("span[ondblclick*='downloadResumeWindow']"),
+                imageCarousel: document.querySelector("span[ondblclick*='carouselWindow']"),
+                solidworks: document.querySelector("span[ondblclick*='solidworksWindow']"),
+                recycleBin: document.querySelector("span[ondblclick*='recycleBinWindow']"),
+                viewResume: document.querySelector(".start-menu-item[onclick*='resumeWindow'] span"),
+                sendEmail: document.querySelector(".start-menu-item[onclick*='mailto'] span"),
+                linkedInProfile: document.querySelector(".start-menu-item[onclick*='linkedin'] span"),
+                controlPanel: document.querySelector(".start-menu-item[onclick*='controlPanelWindow'] span"),
+                shutdown: document.querySelector("#shutdownBtn"),
+                chooseLanguage: document.querySelector("#languageWindow legend"),
+                english: document.querySelector("label[for='english']"),
+                spanish: document.querySelector("label[for='spanish']"),
+                french: document.querySelector("label[for='french']"),
+                german: document.querySelector("label[for='german']")
+            };
+
+            Object.keys(elementsToTranslate).forEach(key => {
+                if (elementsToTranslate[key]) {
+                    elementsToTranslate[key].textContent = translations[language][key];
+                }
+            });
+        }
+
+        document.querySelectorAll("input[name='language']").forEach(radio => {
+            radio.addEventListener("change", (e) => {
+                translatePage(e.target.value);
+            });
+        });
+
+        function changeWallpaper(imagePath) {
+            document.body.style.backgroundImage = `url('${imagePath}')`;
+        }
     </script>
 </body>
 </html>
