@@ -17,6 +17,7 @@
             flex-direction: column;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-weight: normal;
+            overflow: hidden; /* Prevent scrolling on the desktop */
         }
     
         .desktop {
@@ -24,7 +25,7 @@
             position: relative;
             overflow: hidden;
             padding-top: 20px;
-            overflow-y: auto; /* Enable scrolling for the desktop container */
+            overflow: hidden; /* Ensure no scrolling within the desktop container */
         }
     
         .window {
@@ -1532,8 +1533,9 @@
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
 
-            const left = (screenWidth - windowWidth) / 2;
-            const top = (screenHeight - windowHeight) / 2;
+            // Ensure the window fits within the screen dimensions
+            const left = Math.max(0, (screenWidth - windowWidth) / 2);
+            const top = Math.max(0, (screenHeight - windowHeight) / 2);
 
             windowElement.style.left = `${left}px`;
             windowElement.style.top = `${top}px`;
@@ -1545,7 +1547,18 @@
             windowElement.style.display = 'block';
             windowElement.classList.remove('minimized');
             windowElement.classList.add('active');
+
+            // Adjust window size to fit within the screen if necessary
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const maxWidth = Math.min(800, screenWidth - 20); // Leave some margin
+            const maxHeight = Math.min(600, screenHeight - 60); // Leave some margin
+
+            windowElement.style.width = `${maxWidth}px`;
+            windowElement.style.height = `${maxHeight}px`;
+
             centerWindow(windowId); // Center the window when it opens
+
             if (taskbarBtns[windowId]) {
                 taskbarBtns[windowId].classList.add('active');
                 taskbarBtns[windowId].style.display = 'flex';
