@@ -2195,7 +2195,13 @@
                 english: "English",
                 spanish: "Spanish",
                 french: "French",
-                german: "German"
+                german: "German",
+                resumeContent: "Roger Ji\nPhoenix, AZ · (602)-815-5269 · roger.ji.bhs@gmail.com · linkedin.com/in/roger-ji-phx",
+                education: "Education",
+                positions: "Positions",
+                honors: "Honors and Awards",
+                skills: "Skills",
+                volunteer: "Volunteer Experience"
             },
             es: {
                 appearance: "Apariencia y Personalización",
@@ -2215,48 +2221,15 @@
                 english: "Inglés",
                 spanish: "Español",
                 french: "Francés",
-                german: "Alemán"
-            },
-            fr: {
-                appearance: "Apparence et Personnalisation",
-                language: "Langue",
-                userAccounts: "Comptes Utilisateur",
-                resume: "CV",
-                downloadResume: "Télécharger le CV",
-                imageCarousel: "Carrousel d'Images",
-                solidworks: "SOLIDWORKS",
-                recycleBin: "Corbeille",
-                viewResume: "Voir le CV",
-                sendEmail: "Envoyer un Email",
-                linkedInProfile: "Profil LinkedIn",
-                controlPanel: "Panneau de Configuration",
-                shutdown: "Éteindre",
-                chooseLanguage: "Choisir la Langue",
-                english: "Anglais",
-                spanish: "Espagnol",
-                french: "Français",
-                german: "Allemand"
-            },
-            de: {
-                appearance: "Aussehen und Personalisierung",
-                language: "Sprache",
-                userAccounts: "Benutzerkonten",
-                resume: "Lebenslauf",
-                downloadResume: "Lebenslauf Herunterladen",
-                imageCarousel: "Bildkarussell",
-                solidworks: "SOLIDWORKS",
-                recycleBin: "Papierkorb",
-                viewResume: "Lebenslauf Anzeigen",
-                sendEmail: "E-Mail Senden",
-                linkedInProfile: "LinkedIn-Profil",
-                controlPanel: "Systemsteuerung",
-                shutdown: "Herunterfahren",
-                chooseLanguage: "Sprache Wählen",
-                english: "Englisch",
-                spanish: "Spanisch",
-                french: "Französisch",
-                german: "Deutsch"
+                german: "Alemán",
+                resumeContent: "Roger Ji\nPhoenix, AZ · (602)-815-5269 · roger.ji.bhs@gmail.com · linkedin.com/in/roger-ji-phx",
+                education: "Educación",
+                positions: "Posiciones",
+                honors: "Honores y Premios",
+                skills: "Habilidades",
+                volunteer: "Experiencia Voluntaria"
             }
+            // Add other languages here
         };
 
         function translatePage(language) {
@@ -2278,12 +2251,17 @@
                 english: document.querySelector("label[for='english']"),
                 spanish: document.querySelector("label[for='spanish']"),
                 french: document.querySelector("label[for='french']"),
-                german: document.querySelector("label[for='german']")
+                german: document.querySelector("label[for='german']"),
+                resumeContent: document.querySelector("#resumeWindow .window-body")
             };
 
             Object.keys(elementsToTranslate).forEach(key => {
                 if (elementsToTranslate[key]) {
-                    elementsToTranslate[key].textContent = translations[language][key];
+                    if (key === 'resumeContent') {
+                        elementsToTranslate[key].textContent = translations[language][key];
+                    } else {
+                        elementsToTranslate[key].textContent = translations[language][key];
+                    }
                 }
             });
         }
