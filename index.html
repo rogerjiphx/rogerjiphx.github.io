@@ -953,14 +953,27 @@
             </div>
             <div class="window-body">
                 <div class="tabs">
-                    <div class="tab active" onclick="switchTab('solidworks', 'projects')">Projects</div>
+                    <div class="tab active" onclick="switchTab('solidworks', 'certifications')">Certifications</div>
+                    <div class="tab" onclick="switchTab('solidworks', 'projects')">Projects</div>
                     <div class="tab" onclick="switchTab('solidworks', 'designs')">Designs</div>
                     <div class="tab" onclick="switchTab('solidworks', 'models')">3D Models</div>
                     <div class="tab" onclick="switchTab('solidworks', 'simulations')">Simulations</div>
                     <div class="tab" onclick="switchTab('solidworks', 'renderings')">Renderings</div>
                 </div>
 
-                <div class="tab-content active" id="solidworks-projects">
+                <div class="tab-content active" id="solidworks-certifications">
+                    <div class="carousel-container">
+                        <div class="carousel-slide">
+                            <img src="public\fullcertcswa.png" alt="Certification">
+                        </div>
+                    </div>
+                    <div class="placeholder-text">
+                        <p>I currently hold a CSWA certification, and am seeking a CSWP certificate at some point.</p>
+                        <p>Certification ID: C-6JMBP84LR7</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="solidworks-projects">
                     <div class="carousel-container" id="solidworksCarouselContainer">
                         <div class="carousel-slide">
                             <img src="public\robotproject.jpg" alt="2025 Robot">
@@ -1080,7 +1093,7 @@
             <div class="window-body">
                 <h1>Download Resume</h1>
                 <p>Click the button below to download my resume:</p>
-                <a href="Downloads/Roger%20Ji%20Resume.pdf" download class="button">Download Resume</a>
+                <a href="public/Roger%20Ji%20-%20Resume.pdf" download class="button">Download Resume</a>
             </div>
         </div>
 
